@@ -23,6 +23,12 @@ class crudtab : AppCompatActivity() {
         customButton3.setBackgroundResource(R.drawable.rounded_button_background)
         customButton3.setTextColor(resources.getColor(R.color.greenfont))
 
+        customButton1.setOnClickListener {
+            // Start the SecondActivity
+            val intent = Intent(this@crudtab, addapplicationtab::class.java)
+            startActivity(intent)
+        }
+
         customButton3.setOnClickListener {
             // Start the SecondActivity
             val intent = Intent(this@crudtab, resulttab::class.java)

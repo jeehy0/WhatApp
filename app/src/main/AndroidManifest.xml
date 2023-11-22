@@ -13,6 +13,9 @@
         android:theme="@style/Theme.WhatApp"
         tools:targetApi="31">
         <activity
+            android:name=".addapplicationtab"
+            android:exported="false" />
+        <activity
             android:name=".resulttab"
             android:exported="false" />
         <activity
