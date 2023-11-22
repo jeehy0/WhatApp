@@ -15,7 +15,6 @@ class crudtab : AppCompatActivity() {
         val customButton2 : Button = findViewById(R.id.DeleteButton)
         val customButton3 : Button = findViewById(R.id.RandomizeButton)
 
-
         customButton1.setBackgroundResource(R.drawable.rounded_button_background)
         customButton1.setTextColor(resources.getColor(R.color.greenfont))
         customButton2.setBackgroundResource(R.drawable.rounded_button_background)
@@ -24,13 +23,11 @@ class crudtab : AppCompatActivity() {
         customButton3.setTextColor(resources.getColor(R.color.greenfont))
 
         customButton1.setOnClickListener {
-            // Start the SecondActivity
             val intent = Intent(this@crudtab, addapplicationtab::class.java)
             startActivity(intent)
         }
 
         customButton3.setOnClickListener {
-            // Start the SecondActivity
             val intent = Intent(this@crudtab, resulttab::class.java)
             startActivity(intent)
         }

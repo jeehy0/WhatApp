@@ -7,16 +7,44 @@
     android:background="@drawable/darkgreybkg"
     tools:context=".addapplicationtab">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="94dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="Add Applications"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView10" />
+
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="242dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginBottom="122dp"
+        android:backgroundTint="@color/greenbutton"
+        android:text="Continue"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="390dp"
         android:layout_height="268dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="11dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="22dp"
         android:padding="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView10" />
+        app:layout_constraintBottom_toTopOf="@+id/continueButton"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imageView10"
