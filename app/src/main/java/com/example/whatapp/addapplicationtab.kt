@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -58,6 +59,12 @@ class addapplicationtab : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         dataList = arrayListOf<DataClass>()
         getData()
+
+        val adapter = AppAdapter(dataList) { selectedItem ->
+            Toast.makeText(this, "Clicked on: Faye", Toast.LENGTH_SHORT).show()
+        }
+
+        recyclerView.adapter = adapter
     }
 
     private fun getData() {
@@ -65,6 +72,5 @@ class addapplicationtab : AppCompatActivity() {
             var dataClass = DataClass(imageList[i], titleList[i])
             dataList.add(dataClass)
         }
-        recyclerView.adapter = AppAdapter(dataList)
     }
 }

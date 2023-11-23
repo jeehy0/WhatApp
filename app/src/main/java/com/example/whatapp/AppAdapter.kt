@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class AppAdapter(val dataList : ArrayList<DataClass>) : RecyclerView.Adapter<AppAdapter.ViewHolderClass>() {
+class AppAdapter(val dataList : ArrayList<DataClass>, private val onItemClick: (DataClass) -> Unit) : RecyclerView.Adapter<AppAdapter.ViewHolderClass>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolderClass {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.item_layout, p0, false)
@@ -24,8 +24,19 @@ class AppAdapter(val dataList : ArrayList<DataClass>) : RecyclerView.Adapter<App
         return dataList.size
     }
 
-    class ViewHolderClass(itemView : View) : RecyclerView.ViewHolder(itemView) {
-        var rvImage : ImageView = itemView.findViewById(R.id.recyclerImage)
-        var rvTitle : TextView = itemView.findViewById(R.id.recyclerTitle)
+    class ViewHolderClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var rvImage: ImageView = itemView.findViewById(R.id.recyclerImage)
+        var rvTitle: TextView = itemView.findViewById(R.id.recyclerTitle)
+    }
+
+    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClick(dataList[position])
+                }
+            }
+        }
     }
 }
