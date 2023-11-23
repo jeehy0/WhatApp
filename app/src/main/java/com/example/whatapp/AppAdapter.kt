@@ -7,15 +7,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class AppAdapter(val dataList : ArrayList<DataClass>) : RecyclerView.Adapter<AppAdapter.ViewHolderClass>() {
+class AppAdapter(
+    private val dataList: List<DataClass>,
+    private val onItemClickListener: addapplicationtab
+) : RecyclerView.Adapter<AppAdapter.MyViewHolder>() {
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolderClass {
-        val itemView = LayoutInflater.from(p0.context).inflate(R.layout.item_layout, p0, false)
-        return ViewHolderClass(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
+        return MyViewHolder(view, onItemClickListener)
     }
 
-    override fun onBindViewHolder(p0: ViewHolderClass, p1: Int) {
+    override fun onBindViewHolder(p0: MyViewHolder, p1: Int) {
         var currentItem = dataList[p1]
+
         p0.rvImage.setImageResource(currentItem.dataImage)
         p0.rvTitle.text = currentItem.dataTitle
     }
@@ -24,8 +28,16 @@ class AppAdapter(val dataList : ArrayList<DataClass>) : RecyclerView.Adapter<App
         return dataList.size
     }
 
-    class ViewHolderClass(itemView : View) : RecyclerView.ViewHolder(itemView) {
-        var rvImage : ImageView = itemView.findViewById(R.id.recyclerImage)
-        var rvTitle : TextView = itemView.findViewById(R.id.recyclerTitle)
+    class MyViewHolder(itemView: View, private val onItemClickListener: addapplicationtab) :
+        RecyclerView.ViewHolder(itemView) {
+
+        var rvImage: ImageView = itemView.findViewById(R.id.recyclerImage)
+        var rvTitle: TextView = itemView.findViewById(R.id.recyclerTitle)
+
+        init {
+            itemView.setOnClickListener {
+                onItemClickListener.onItemClick(adapterPosition)
+            }
+        }
     }
 }
