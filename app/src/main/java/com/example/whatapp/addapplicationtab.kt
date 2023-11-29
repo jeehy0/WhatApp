@@ -1,5 +1,6 @@
 package com.example.whatapp
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -73,8 +74,12 @@ class addapplicationtab : AppCompatActivity() {
     }
 
     fun onItemClick(position: Int) {
-        showToast("App Added: ${titleList[position]}")
-        Log.i("ItemClick", "$position")
+        val selectedApp = titleList[position]
+        showToast("App Added: $selectedApp")
+        val intent = Intent()
+        intent.putExtra("selectedApp", selectedApp)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     private fun showToast(message: String) {

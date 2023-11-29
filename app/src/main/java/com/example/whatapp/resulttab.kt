@@ -71,16 +71,16 @@ class resulttab : AppCompatActivity() {
 
     companion object {
         // Constants representing different app names
-        const val APP_FACEBOOK = "facebook"
-        const val APP_TIKTOK = "tiktok"
-        const val APP_INSTAGRAM = "instagram"
-        const val APP_TWITTER = "twitter"
-        const val APP_YOUTUBE = "youtube"
-        const val APP_NETFLIX = "netflix"
-        const val APP_TWITCH = "twitch"
-        const val APP_REDDIT = "reddit"
-        const val APP_SHOPEE = "shopee"
-        const val APP_SPOTIFY = "spotify"
-        const val APP_LAZADA = "lazada"
+        const val APP_FACEBOOK = "Facebook"
+        const val APP_TIKTOK = "TikTok"
+        const val APP_INSTAGRAM = "Instagram"
+        const val APP_TWITTER = "Twitter"
+        const val APP_YOUTUBE = "Youtube"
+        const val APP_NETFLIX = "Netflix"
+        const val APP_TWITCH = "Twitch"
+        const val APP_REDDIT = "Reddit"
+        const val APP_SHOPEE = "Shopee"
+        const val APP_SPOTIFY = "Spotify"
+        const val APP_LAZADA = "Lazada"
     }
 }

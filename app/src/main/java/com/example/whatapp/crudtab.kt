@@ -1,12 +1,19 @@
 package com.example.whatapp
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
+
 
 class crudtab : AppCompatActivity() {
+
+
+
+    private var selectedApp: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.crudtab)
@@ -24,16 +31,21 @@ class crudtab : AppCompatActivity() {
 
         customButton1.setOnClickListener {
             val intent = Intent(this@crudtab, addapplicationtab::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, REQUEST_CODE)
         }
 
+
+
+        selectedApp = intent.getStringExtra("selectedApp")
         //RANDOMIZE BUTTON NAGUGULUHAN AKO
         customButton3.setOnClickListener {
-
-            val selectedApp = getRandomApp()
-            val intent = Intent(this, resulttab::class.java)
-            intent.putExtra("selectedApp", selectedApp)
-            startActivity(intent)
+            if (selectedApp != null) {
+                val intent = Intent(this, resulttab::class.java)
+                intent.putExtra("selectedApp", selectedApp)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "No app selected yet", Toast.LENGTH_SHORT).show()
+            }
         }
 
 
@@ -42,7 +54,25 @@ class crudtab : AppCompatActivity() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+
+
     }
+
+
+    // Handle the received app from addapplicationtab
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val appSelected = data?.getStringExtra("selectedApp")
+            appSelected?.let {
+                selectedApp = it
+            }
+        }
+    }
+
+
+
+
 
 
 
@@ -65,6 +95,8 @@ class crudtab : AppCompatActivity() {
         const val APP_SHOPEE = "shopee"
         const val APP_SPOTIFY = "spotify"
         const val APP_LAZADA = "lazada"
+
+        private const val REQUEST_CODE = 100 // Define your request code
     }
 
 
