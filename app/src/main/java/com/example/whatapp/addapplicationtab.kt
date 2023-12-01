@@ -15,10 +15,14 @@ class addapplicationtab : AppCompatActivity() {
     lateinit var dataList: ArrayList<DataClass>
     lateinit var imageList: Array<Int>
     lateinit var titleList: Array<String>
+    private var selectedApps: ArrayList<String>? = null // Declare at the top of the class
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addapplicationtab)
+
+        selectedApps = intent.getStringArrayListExtra("selectedApps") ?: arrayListOf()
 
         val customButton1: Button = findViewById(R.id.continueButton)
 
@@ -29,6 +33,8 @@ class addapplicationtab : AppCompatActivity() {
             val intent = Intent(this@addapplicationtab, crudtab::class.java)
             startActivity(intent)
         }
+
+
 
         imageList = arrayOf(
             R.drawable.fbicon,
@@ -63,6 +69,9 @@ class addapplicationtab : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         dataList = arrayListOf<DataClass>()
         getData()
+
+
+
     }
 
     private fun getData() {
@@ -76,6 +85,10 @@ class addapplicationtab : AppCompatActivity() {
     fun onItemClick(position: Int) {
         val selectedApp = titleList[position]
         showToast("App Added: $selectedApp")
+
+        selectedApps?.add(selectedApp) // Add selected app to the ArrayList
+
+        // Notify the intent about the updated ArrayList
         val intent = Intent()
         intent.putExtra("selectedApp", selectedApp)
         setResult(Activity.RESULT_OK, intent)
@@ -85,5 +98,7 @@ class addapplicationtab : AppCompatActivity() {
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
+
 
 }

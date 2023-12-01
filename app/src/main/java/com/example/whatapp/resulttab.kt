@@ -19,10 +19,15 @@ class resulttab : AppCompatActivity() {
         myTextView = findViewById(R.id.applicationName)
         val btnLaunch: Button = findViewById(R.id.btnLaunch)
 
-        val message = intent.getStringExtra("selectedApp")
-        if (message != null) {
-            myTextView.text = message
-            btnLaunch.tag = message // Set selected app as the tag for btnLaunch
+        val selectedApps = intent.getStringArrayListExtra("selectedApps")
+        if (selectedApps != null && selectedApps.isNotEmpty()) {
+            val randomIndex = (Math.random() * selectedApps.size).toInt()
+            val selectedApp = selectedApps[randomIndex]
+            myTextView.text = selectedApp
+            btnLaunch.tag = selectedApp // Set selected app as the tag for btnLaunch
+        } else {
+            myTextView.text = "No apps selected"
+            btnLaunch.isEnabled = false // Disable the launch button if no apps selected
         }
 
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 
 
@@ -13,14 +14,21 @@ class crudtab : AppCompatActivity() {
 
 
 
-    private var selectedApp: String? = null
+    private var selectedApps: ArrayList<String>? = null // Change here
+    private lateinit var textView: TextView // Declare textView here
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.crudtab)
 
+        selectedApps = intent.getStringArrayListExtra("selectedApps") ?: arrayListOf() // Change here
+
+        textView = findViewById(R.id.textView)
+
         val customButton1 : Button = findViewById(R.id.AddButton)
         val customButton2 : Button = findViewById(R.id.DeleteButton)
         val customButton3 : Button = findViewById(R.id.RandomizeButton)
+
 
         customButton1.setBackgroundResource(R.drawable.rounded_button_background)
         customButton1.setTextColor(resources.getColor(R.color.greenfont))
@@ -36,12 +44,12 @@ class crudtab : AppCompatActivity() {
 
 
 
-        selectedApp = intent.getStringExtra("selectedApp")
+
         //RANDOMIZE BUTTON NAGUGULUHAN AKO
         customButton3.setOnClickListener {
-            if (selectedApp != null) {
+            if (selectedApps != null && selectedApps!!.isNotEmpty()) {
                 val intent = Intent(this, resulttab::class.java)
-                intent.putExtra("selectedApp", selectedApp)
+                intent.putStringArrayListExtra("selectedApps", selectedApps)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "No app selected yet", Toast.LENGTH_SHORT).show()
@@ -56,6 +64,8 @@ class crudtab : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
 
+
+
     }
 
 
@@ -65,11 +75,17 @@ class crudtab : AppCompatActivity() {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val appSelected = data?.getStringExtra("selectedApp")
             appSelected?.let {
-                selectedApp = it
+                selectedApps?.add(it)
+                updateAppCount()
             }
         }
     }
 
+    // Function to update the TextView with the current number of apps
+    private fun updateAppCount() {
+        val appCount = selectedApps?.size ?: 0
+        textView.text = "$appCount"
+    }
 
 
 
