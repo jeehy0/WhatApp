@@ -39,10 +39,13 @@ class crudtab : AppCompatActivity() {
 
         customButton1.setOnClickListener {
             val intent = Intent(this@crudtab, addapplicationtab::class.java)
-            startActivityForResult(intent, REQUEST_CODE)
+            startActivityForResult(intent, ADD_APP_REQUEST_CODE)
         }
 
-
+        customButton2.setOnClickListener {
+            val intent = Intent(this@crudtab, deleteapplicationtab::class.java)
+            startActivityForResult(intent, REMOVE_APP_REQUEST_CODE)
+        }
 
 
         //RANDOMIZE BUTTON NAGUGULUHAN AKO
@@ -57,13 +60,9 @@ class crudtab : AppCompatActivity() {
         }
 
 
-
-
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-
-
 
 
     }
@@ -72,10 +71,17 @@ class crudtab : AppCompatActivity() {
     // Handle the received app from addapplicationtab
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == ADD_APP_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val appSelected = data?.getStringExtra("selectedApp")
             appSelected?.let {
                 selectedApps?.add(it)
+                updateAppCount()
+            }
+        }
+        if (requestCode == REMOVE_APP_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val appSelected = data?.getStringExtra("selectedApp")
+            appSelected?.let {
+                selectedApps?.remove(it)
                 updateAppCount()
             }
         }
@@ -88,15 +94,11 @@ class crudtab : AppCompatActivity() {
     }
 
 
-
-
-
-
-    private fun getRandomApp(): String {
-        val apps = listOf(APP_FACEBOOK, APP_TIKTOK, APP_INSTAGRAM, APP_TWITTER, APP_YOUTUBE, APP_NETFLIX, APP_TWITCH, APP_REDDIT, APP_SHOPEE, APP_SPOTIFY, APP_LAZADA)
-        val randomIndex = (Math.random() * apps.size).toInt()
-        return apps[randomIndex]
-    }
+//    private fun getRandomApp(): String {
+//        val apps = listOf(APP_FACEBOOK, APP_TIKTOK, APP_INSTAGRAM, APP_TWITTER, APP_YOUTUBE, APP_NETFLIX, APP_TWITCH, APP_REDDIT, APP_SHOPEE, APP_SPOTIFY, APP_LAZADA)
+//        val randomIndex = (Math.random() * apps.size).toInt()
+//        return apps[randomIndex]
+//    }
 
     companion object {
         // Constants representing different app names
@@ -112,7 +114,8 @@ class crudtab : AppCompatActivity() {
         const val APP_SPOTIFY = "spotify"
         const val APP_LAZADA = "lazada"
 
-        private const val REQUEST_CODE = 100 // Define your request code
+        val ADD_APP_REQUEST_CODE = 1
+        val REMOVE_APP_REQUEST_CODE = 2 // Define your request code
     }
 
 

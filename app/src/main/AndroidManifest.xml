@@ -16,6 +16,9 @@
             android:name=".addapplicationtab"
             android:exported="false" />
         <activity
+            android:name=".deleteapplicationtab"
+            android:exported="false" />
+        <activity
             android:name=".resulttab"
             android:exported="false" />
         <activity

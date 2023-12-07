@@ -12,11 +12,13 @@ import android.widget.Toast
 class resulttab : AppCompatActivity() {
 
     lateinit var myTextView : TextView
+    lateinit var myTextView2 : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.result)
 
         myTextView = findViewById(R.id.applicationName)
+        myTextView2 = findViewById(R.id.timeName)
         val btnLaunch: Button = findViewById(R.id.btnLaunch)
 
         val selectedApps = intent.getStringArrayListExtra("selectedApps")
@@ -29,6 +31,11 @@ class resulttab : AppCompatActivity() {
             myTextView.text = "No apps selected"
             btnLaunch.isEnabled = false // Disable the launch button if no apps selected
         }
+
+        val numbers = arrayOf(10, 20, 30, 40, 50, 60)
+        val randomIndex = (Math.random() * numbers.size).toInt()
+        val randomElement = numbers[randomIndex]
+        myTextView2.text = randomElement.toString() + " minutes"
 
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION

@@ -24,17 +24,6 @@ class addapplicationtab : AppCompatActivity() {
 
         selectedApps = intent.getStringArrayListExtra("selectedApps") ?: arrayListOf()
 
-        val customButton1: Button = findViewById(R.id.continueButton)
-
-        customButton1.setBackgroundResource(R.drawable.rounded_button_background)
-        customButton1.setTextColor(resources.getColor(R.color.greenfont))
-
-        customButton1.setOnClickListener {
-            val intent = Intent(this@addapplicationtab, crudtab::class.java)
-            startActivity(intent)
-        }
-
-
 
         imageList = arrayOf(
             R.drawable.fbicon,
@@ -84,14 +73,18 @@ class addapplicationtab : AppCompatActivity() {
 
     fun onItemClick(position: Int) {
         val selectedApp = titleList[position]
-        showToast("App Added: $selectedApp")
+        if (!selectedApps?.contains(selectedApp)!!) { // Check if the app is already selected
+            Toast.makeText(this, "App Added: $selectedApp", Toast.LENGTH_SHORT).show()
 
-        selectedApps?.add(selectedApp) // Add selected app to the ArrayList
+            selectedApps?.add(selectedApp) // Add selected app to the ArrayList
 
-        // Notify the intent about the updated ArrayList
-        val intent = Intent()
-        intent.putExtra("selectedApp", selectedApp)
-        setResult(Activity.RESULT_OK, intent)
+            // Notify the intent about the updated ArrayList
+            val intent = Intent()
+            intent.putExtra("selectedApp", selectedApp)
+            setResult(Activity.RESULT_OK, intent)
+        } else {
+            Toast.makeText(this, "App already added: $selectedApp", Toast.LENGTH_SHORT).show()
+        }
         finish()
     }
 
