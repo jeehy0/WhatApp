@@ -8,7 +8,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-
+import android.app.AlarmManager
+import android.app.PendingIntent
 class resulttab : AppCompatActivity() {
 
     lateinit var myTextView : TextView
@@ -32,9 +33,9 @@ class resulttab : AppCompatActivity() {
             btnLaunch.isEnabled = false // Disable the launch button if no apps selected
         }
 
-        val numbers = arrayOf(10, 20, 30, 40, 50, 60)
+        val numbers = arrayOf(10, 20, 30, 40 ,50, 60)
         val randomIndex = (Math.random() * numbers.size).toInt()
-        val randomElement = numbers[randomIndex]
+        val randomElement : Long = numbers[randomIndex].toLong()
         myTextView2.text = randomElement.toString() + " minutes"
 
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -46,6 +47,8 @@ class resulttab : AppCompatActivity() {
         btnLaunch.setOnClickListener {
             // Retrieve the selected app from the btnLaunch tag
             val selectedApp = btnLaunch.tag as? String
+
+            scheduleNotification(randomElement * 60 * 1000)
 
             // If the selectedApp is not null, open the corresponding app or website
             selectedApp?.let { app ->
@@ -80,6 +83,23 @@ class resulttab : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun scheduleNotification(delayMillis: Long) {
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val notificationIntent = Intent(this, NotificationReceiver::class.java)
+
+        // Pass the randomElement value to the receiver
+        notificationIntent.putExtra("notificationMessage", "Your time is up!")
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            notificationIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        // Schedule the notification after the specified delay
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + delayMillis, pendingIntent)
+    }
 
     companion object {
         // Constants representing different app names
