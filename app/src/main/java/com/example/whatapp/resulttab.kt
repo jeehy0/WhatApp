@@ -10,13 +10,28 @@ import android.widget.TextView
 import android.widget.Toast
 import android.app.AlarmManager
 import android.app.PendingIntent
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 class resulttab : AppCompatActivity() {
 
-    lateinit var myTextView : TextView
-    lateinit var myTextView2 : TextView
+    lateinit var myTextView: TextView
+    lateinit var myTextView2: TextView
+
+    // Declare Firebase Database references
+    private lateinit var database: FirebaseDatabase
+    private lateinit var appDataReference: DatabaseReference
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.result)
+
+        FirebaseApp.initializeApp(this)
+        // Initialize Firebase Database
+        database = FirebaseDatabase.getInstance()
+        appDataReference =
+            database.reference.child("WhatAppData") // Replace "appData" with your desired reference name
 
         myTextView = findViewById(R.id.applicationName)
         myTextView2 = findViewById(R.id.timeName)
@@ -33,9 +48,9 @@ class resulttab : AppCompatActivity() {
             btnLaunch.isEnabled = false // Disable the launch button if no apps selected
         }
 
-        val numbers = arrayOf(10, 20, 30, 40 ,50, 60)
+        val numbers = arrayOf(10, 20, 30, 40, 50, 60)
         val randomIndex = (Math.random() * numbers.size).toInt()
-        val randomElement : Long = numbers[randomIndex].toLong()
+        val randomElement: Long = numbers[randomIndex].toLong()
         myTextView2.text = randomElement.toString() + " minutes"
 
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -44,14 +59,43 @@ class resulttab : AppCompatActivity() {
 
 
 
+        // Inside your resulttab class, add the following function
+         fun updateAppCount(selectedApps: ArrayList<String>?) {
+
+        }
+
+// Call the updateAppCount function where you update the app count in your code
+// For example, where you handle the launch button click
+        btnLaunch.setOnClickListener {
+            val selectedApp = btnLaunch.tag as? String
+            val randomElement = myTextView2.text.toString()
+
+            selectedApp?.let { app ->
+                // Other code...
+
+                updateAppCount(selectedApps)
+            } ?: run {
+                // Handle case where selectedApp is null
+                Toast.makeText(this, "No app selected", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+
+
+
+
         btnLaunch.setOnClickListener {
             // Retrieve the selected app from the btnLaunch tag
             val selectedApp = btnLaunch.tag as? String
+            val randomElement = myTextView2.text.toString()
 
-            scheduleNotification(randomElement * 60 * 1000)
+                //eto yung nagpapacrash tuwing pinipindot yung btnLaunch
+                // scheduleNotification(randomElement * 60 * 1000)
 
             // If the selectedApp is not null, open the corresponding app or website
             selectedApp?.let { app ->
+
                 when (app) {
                     APP_FACEBOOK -> openApp("fb://page/facebook")
                     APP_TIKTOK -> openApp("https://www.tiktok.com/")
@@ -65,11 +109,34 @@ class resulttab : AppCompatActivity() {
                     APP_SPOTIFY -> openApp("spotify:artist:")
                     APP_LAZADA -> openApp("https://www.lazada.com/")
 
+
+
                     else -> {
                         // Handle unknown app
                         Toast.makeText(this, "Unknown app", Toast.LENGTH_SHORT).show()
                     }
                 }
+
+
+                //eto yung maangas na part na naglalagay sa database ng info kapag pinush yung btnLaunch
+                val appCount = selectedApps?.size ?: 0
+                val uniqueKey = appDataReference.push().key
+                uniqueKey?.let { key ->
+                    val dataMap = HashMap<String, Any>()
+                    dataMap["selectedApp"] = selectedApp
+                    dataMap["Time"] = randomElement
+                    dataMap["appCount"] = appCount
+
+                    // Push data to a new child node under "WhatAppData" with the unique key
+                    appDataReference.child(key).setValue(dataMap)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Data pushed to Firebase", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(this, "Failed to push data: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
+
             } ?: run {
                 // Handle case where selectedApp is null
                 Toast.makeText(this, "No app selected", Toast.LENGTH_SHORT).show()
@@ -100,6 +167,8 @@ class resulttab : AppCompatActivity() {
         // Schedule the notification after the specified delay
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + delayMillis, pendingIntent)
     }
+
+
 
     companion object {
         // Constants representing different app names
