@@ -29,7 +29,7 @@
         android:layout_width="390dp"
         android:layout_height="350dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="116dp"
         android:padding="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,5 +44,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/whatappwithlogo" />
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="135dp"
+        android:layout_height="167dp"
+        android:layout_marginBottom="39dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/crudflowerup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
